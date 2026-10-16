@@ -1,5 +1,5 @@
 # MEMORY — DASHBOARD EXECUTIVO (dashboard-executivo)
-Atualizado em: 2026-10-16 | Versão: 0.1.0 | Estado: VALIDADO localmente e na cópia exportada (falta a CI do hub e a publicação do repositório público)
+Atualizado em: 2026-10-16 | Versão: 0.1.0 | Estado: VALIDADO e PUBLICADO (CI do hub verde nos jobs do 09; repositório público github.com/pack-25-sistemas-ia/dashboard-executivo)
 
 ## Missão do sistema
 Relatórios montados à mão todo mês. Público: gestores que consolidam indicadores de várias planilhas. Valor: importar planilhas (CSV/XLSX), definir indicadores com fórmulas seguras, montar dashboards visuais, acompanhar metas e compartilhar internamente.
@@ -23,7 +23,7 @@ Fora do escopo (D-B*): conectores universais, tempo real, SQL/JS do usuário, PD
 
 ## Pendências e riscos
 - **O prompt do Sistema 09 chegou truncado na seção 33 (testes de importação)**; faltam o restante dos testes, critérios de aceite, fases e relatório (D-B11). Reconciliar com o Word íntegro.
-- CI do hub (jobs `dashboard-executivo-*`) e repositório público ainda não executados.
+- CI do hub (commit 52218ba): os 3 jobs `dashboard-executivo-*` verdes. Falhas **preexistentes de outros sistemas** na mesma execução (não tocadas aqui): testes do 02 que dependem da hora do dia e mutação de concorrência do 06 («movimento sem travar a conta») que sobrevive de forma intermitente.
 - Limites conhecidos: linhas em `jsonb` por versão (50.000 linhas por dataset); layouts por ponto de corte aceitos pelo banco, mas a visualização reorganiza automaticamente; sem PDF nativo.
 - Risco LGPD: médio (as planilhas do cliente podem trazer dados pessoais; minimização, RLS e dataset restrito aplicados).
 
