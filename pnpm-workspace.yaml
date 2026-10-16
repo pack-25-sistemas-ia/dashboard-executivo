@@ -1,0 +1,6 @@
+# Política de cadeia de suprimentos do Core web (ver docs/SECURITY_STANDARD.md §8).
+# Scripts de instalação de dependências ficam BLOQUEADOS por padrão; só entra aqui com justificativa.
+allowBuilds:
+  unrs-resolver: false   # binário nativo opcional do resolvedor do ESLint; há fallback sem script
+# Quarentena de versões recém-publicadas: NÃO criar exceções (minimumReleaseAgeExclude). Se uma
+# versão for muito nova, fixe a anterior madura.

@@ -1,0 +1,14 @@
+# Arquivos que o sistema 09 possui (o sync-core cria uma vez e nunca sobrescreve).
+package.json
+pnpm-lock.yaml
+lib/system.config.ts
+public/brand/**
+next.config.ts
+app/(app)/inicio/**
+app/(app)/dashboard/**
+app/(app)/layout.tsx
+supabase/config.toml
+scripts/test-concurrency.mjs
+# Arquivos do Core que o sistema 09 não quer.
+-tests/e2e/core-dashboard.spec.ts
+-tests/e2e/screens.spec.ts

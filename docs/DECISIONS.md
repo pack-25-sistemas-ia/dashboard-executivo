@@ -1,0 +1,13 @@
+# DECISIONS — Dashboard Executivo
+
+**D-B1 Estrutura.** Layout do Core na raiz (sem `src/`) e primitivos próprios do Core, sem shadcn/ui: mantém `sync-core` e a independência dos demais sistemas. Rotas em português conforme o prompt (`/inicio`, `/datasets`, `/importacoes`, `/explorador`, `/indicadores`, `/dashboards`, `/metas`, `/relatorios`, `/compartilhamentos`, `/configuracoes`).
+**D-B2 Gráficos.** Só Recharts (barras, linhas, áreas, pizza/donut, empilhado, combinado). ECharts e DuckDB-Wasm avaliados e não adotados.
+**D-B3 XLSX.** Leitor próprio sobre `fflate` (valor em cache da célula; fórmulas **nunca** avaliadas; `.xlsm`/`vbaProject.bin` recusados; limite de tamanho descompactado checado *antes* de inflar). ExcelJS descartado (ver auditoria).
+**D-B4 Dados.** `dataset_rows.values_json` por versão, com **chaves internas** `c1..cn` geradas pelo sistema; o nome vindo do arquivo é só rótulo e **nunca** vira identificador SQL. Sem tabelas dinâmicas.
+**D-B5 Consultas.** Uma função `bi_run_query` recebe uma *especificação declarativa* (JSON validado: métricas base, dimensões, filtros, período, ordenação, limite). O SQL é montado com identificadores fixos, chaves internas validadas por catálogo e valores via `format('%L')` com *cast* de tipo. Nada de SQL livre; `statement_timeout`; limites de cardinalidade e de linhas.
+**D-B6 Métricas.** Agregações base (soma, contagem, distinta, média, mín., máx.) rodam no banco; **fórmulas** (razão, crescimento, + − × ÷) são uma **AST** validada, sem ciclos, combinada no servidor com `decimal.js`; divisão por zero → *indisponível*. O cliente nunca calcula KPI.
+**D-B7 Importação.** O servidor lê e valida (tipos, datas BR, moeda, %); grava em versão *staging* por lotes e **publica atomicamente** (`bi_publish_version`); falha preserva a versão ativa. O arquivo original **não é retido** (só hash, nome, contagens e mapeamento): minimização LGPD.
+**D-B8 Exportação.** CSV neutralizado e auditado, gerado sob demanda; PDF **não** implementado (visão de impressão do navegador) — o prompt condiciona PDF a "quando implementado".
+**D-B9 Acesso.** Papéis do Core: owner/admin = Administrador; manager = Gestor; member = Analista; viewer = Visualizador. Visualizador só lê dados **por widget de dashboard compartilhado** (nunca consulta livre). Dataset *restrito* exige permissão explícita; revogar vale na consulta seguinte.
+**D-B10 Concorrência.** `dashboards.row_version` (otimista): salvar com versão antiga é recusado, sem sobrescrever.
+**D-B11 Prompt truncado.** O prompt do Sistema 09 chegou cortado na seção 33 (testes de importação). Reconciliar com o Word íntegro.
